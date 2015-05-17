@@ -27,6 +27,15 @@ class CPAC_Storage_Model_User extends CPAC_Storage_Model {
 	}
 
 	/**
+	 * @since NEWVERSION
+	 * @see CPAC_Storage_Model::get_wordpress_native_column_types()
+	 */
+	public function get_wordpress_native_column_types() {
+
+		return array( 'email', 'name', 'posts', 'role', 'username' );
+	}
+
+	/**
 	 * Get WP default supported admin columns per post type.
 	 *
 	 * @see CPAC_Type::get_default_columns()

@@ -228,6 +228,18 @@ abstract class CPAC_Storage_Model {
 	}
 
 	/**
+	 * Get the column type names for columns native to WordPress for this storage model
+	 *
+	 * @since NEWVERSION
+	 *
+	 * @return array Column names
+	 */
+	public function get_wordpress_native_column_types() {
+
+		return array();
+	}
+
+	/**
 	 * @since 2.0
 	 */
 	public function restore() {
@@ -376,13 +388,16 @@ abstract class CPAC_Storage_Model {
 		// create column instance
 		$column = new CPAC_Column( $this );
 
+		// Column group
+		$group = in_array( $column_name, $this->get_wordpress_native_column_types() ) ? 'default' : 'thirdparty';
+
 		$column
 			->set_properties( 'type', $column_name )
 			->set_properties( 'name', $column_name )
 			->set_properties( 'label', $label )
 			->set_properties( 'is_cloneable', false )
 			->set_properties( 'default', true )
-			->set_properties( 'group', 'default' )
+			->set_properties( 'group', $group )
 			->set_options( 'label', $label )
 			->set_options( 'state', 'on' );
 
@@ -593,7 +608,8 @@ abstract class CPAC_Storage_Model {
 
 		$groups = array(
 			'custom' => __( 'Custom', 'cpac' ),
-			'default' => __( 'Default', 'cpac' )
+			'default' => __( 'Default', 'cpac' ),
+			'thirdparty' => __( 'Plugin column', 'cpac' )
 		);
 
 		/**
